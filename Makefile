@@ -9,7 +9,7 @@ SUCOPY=/bin/sucopy
 SSH=/usr/bin/ssh
 ECHO=/bin/echo -e
 SUDO=/usr/bin/sudo
-GO=go
+GO=$(shell which go)
 BIN=./bin
 TARGETS=$(patsubst %.go,$(BIN)/%,$(wildcard *.go))
 
