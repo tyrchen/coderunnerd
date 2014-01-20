@@ -10,6 +10,7 @@ SSH=/usr/bin/ssh
 ECHO=/bin/echo -e
 SUDO=/usr/bin/sudo
 GO=$(shell which go)
+CLOC=$(shell which cloc)
 BIN=./bin
 TARGETS=$(patsubst %.go,$(BIN)/%,$(wildcard *.go))
 
@@ -45,4 +46,4 @@ clean:
 	@echo $(DONE)
 
 cloc:
-	@cloc . --exclude-dir=webclient/assets
+	@$(CLOC) . --exclude-dir=webclient/assets
