@@ -1,0 +1,12 @@
+.handsontable td {
+    font-family: courier, "courier new", monospace;
+    line-height: 15px;
+    height: 36px;
+    font-size: 16px;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.handsontable td b {
+    color: #B54D4C;
+}

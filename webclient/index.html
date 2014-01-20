@@ -1,0 +1,75 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Code runner tester</title>
+    <link rel="stylesheet" media="screen" href="assets/css/app.min.css">
+    <link rel="stylesheet" media="screen" href="assets/css/custom.css">
+    
+
+</head>
+<body>
+    <div class="container">
+        <h1>Code runner tester</h1>
+        <form role="form">
+          <div class="form-group">
+            <label for="suffix">Code suffix</label>
+            <select name="suffix" id="suffix" class="form-control">
+                <option value="go">go</option>
+                <option value="py">py</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="content">Code content</label>
+            <textarea name="content" id="content" class="form-control" style="height: 400px"></textarea>
+          </div>
+          <button type="submit" class="btn btn-default" name="run" id="run">Submit</button>
+        </form>
+        <hr/>
+        <p>Code result:</p>
+        <pre><code id="result"></code></pre>
+    </div>
+    
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/lodash.min.js"></script>
+    <script src="assets/js/reconnecting-websocket.js"></script>
+
+    <script language="javascript">
+        var sock = null;
+        var wsuri = "ws://127.0.0.1:8211";
+
+        $(function() {
+            initWebsocket();
+            $('#run').on('click', function(e) {
+                var suffix = $('select[name="suffix"]').val();
+                var content = $('#content').val();
+                send({'Suffix': suffix, 'Content': content});
+                return false;
+            });
+        });
+        
+        function send(data) {
+            var msg = JSON.stringify(data);
+            sock.send(msg);
+
+        };
+
+        function initWebsocket() {
+            sock = new ReconnectingWebSocket(wsuri);
+
+            sock.onopen = function() {
+                console.log("connected to " + wsuri);
+            }
+
+            sock.onclose = function(e) {
+                console.log("connection closed (" + e.code + ")");
+            }
+
+            sock.onmessage = function(e) {
+                console.log("message received: " + e.data);
+                var data = JSON.parse(e.data);
+                $('#result').text(data.Content);
+            }
+        }
+    </script>
+</body>
+</html>
