@@ -95,6 +95,7 @@ func runCode(data string) (out []byte, err error) {
 		}
 		ret.Suffix = code.Suffix
 		ret.Content = string(data)
+		log.Println(ret.Content)
 		out, _ = json.Marshal(ret)
 		return out, nil
 	}
