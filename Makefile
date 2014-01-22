@@ -23,7 +23,7 @@ $(TARGETS): $(BIN)/%: %.go
 	@$(GO) build -o $@ $<
 
 remote_deploy:
-	@$(SSH) -t $(SERVER) "echo Deploy $(PROJECT) to the $(SERVER) server.; cd $(PATH);  git pull; make deploy;"
+	@$(SSH) -t $(SERVER) "echo Deploy $(PROJECT) to the $(SERVER) server.; cd $(PATH); export GOPATH=~/go;  git pull; make deploy;"
 
 dependency:
 	@$(ECHO) "\nInstall project dependencies..."
@@ -39,7 +39,7 @@ supervisor:
 	@$(ECHO) "\nRestart $(PROJECT)..."
 	@$(SUDO) $(SUPERVISORCTL) restart $(PROJECT)
 
-deploy: clean dependency configuration supervisor
+deploy: clean dependency configuration build supervisor
 	@$(ECHO) $(DONE)
 
 clean:
