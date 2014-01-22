@@ -38,7 +38,7 @@
             $('select[name="suffix"]').on('change', function() {
                 $('.coderunner').attr('suffix', $('select[name="suffix"]').val());
             });
-            CodeRunner("ws://" + window.location.hostname + ":8211/");
+            CodeRunner("ws://" + window.location.hostname + ":8211/", "form");
         })
     </script>
 </body>

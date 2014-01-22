@@ -1,12 +1,12 @@
-function CodeRunner(wsuri) {
+function CodeRunner(wsuri, parent) {
     var sock = null;
 
     initWebsocket();
 
     var $coderunner = $('.coderunner');
     $coderunner.on('click', function(e) {
-        var $form = $(this).closest('form');
-        var $content = $('.coderunner-content', $form);
+        var $parent = $(this).closest(parent);
+        var $content = $('.coderunner-content', $parent);
         var suffix = $coderunner.attr('suffix');
         var content = $content.text() || $content.val();
         send({'Suffix': suffix, 'Content': content});
