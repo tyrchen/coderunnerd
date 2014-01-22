@@ -4,8 +4,10 @@ function CodeRunner(wsuri, parent) {
     initWebsocket();
 
     var $coderunner = $('.coderunner');
+    var $parent;
+
     $coderunner.on('click', function(e) {
-        var $parent = $(this).closest(parent);
+        $parent = $(this).closest(parent); 
         var $content = $('.coderunner-content', $parent);
         var suffix = $coderunner.attr('suffix');
         var content = $content.text() || $content.val();
@@ -33,7 +35,7 @@ function CodeRunner(wsuri, parent) {
         sock.onmessage = function(e) {
             console.log("message received: " + e.data);
             var data = JSON.parse(e.data);
-            $('.coderunner-result').text(data.Content);
+            $('.coderunner-result', $parent).text(data.Content);
         }
     }
 }
