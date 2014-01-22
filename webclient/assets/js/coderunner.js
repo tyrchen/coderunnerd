@@ -5,8 +5,10 @@ function CodeRunner(wsuri) {
 
     var $coderunner = $('.coderunner');
     $coderunner.on('click', function(e) {
+        var $form = $(this).closest('form');
+        var $content = $('.coderunner-content', $form);
         var suffix = $coderunner.attr('suffix');
-        var content = $('.coderunner-content').text() || $('.coderunner-content').val();
+        var content = $content.text() || $content.val();
         send({'Suffix': suffix, 'Content': content});
         return false;
     });

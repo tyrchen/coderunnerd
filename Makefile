@@ -8,6 +8,7 @@ SUPERVISORCTL=/usr/bin/supervisorctl
 SUCOPY=/bin/sucopy
 SSH=/usr/bin/ssh
 ECHO=/bin/echo -e
+RM=/bin/rm
 SUDO=/usr/bin/sudo
 GO=$(shell which go)
 CLOC=$(shell which cloc)
@@ -38,11 +39,11 @@ supervisor:
 	@$(ECHO) "\nRestart $(PROJECT)..."
 	@$(SUDO) $(SUPERVISORCTL) restart $(PROJECT)
 
-deploy: dependency configuration supervisor
+deploy: clean dependency configuration supervisor
 	@$(ECHO) $(DONE)
 
 clean:
-	@rm -f $(TARGETS)
+	@$(RM) -f $(TARGETS)
 	@echo $(DONE)
 
 cloc:
