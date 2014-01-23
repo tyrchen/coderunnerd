@@ -10,23 +10,22 @@
 <body>
     <div class="container">
         <h1>Code runner tester</h1>
-        <form role="form">
-          <div class="form-group">
-            <label for="suffix">Code suffix</label>
-            <select name="suffix" class="form-control">
-                <option value="go">go</option>
-                <option value="py">py</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="content">Code content</label>
-            <textarea name="content" class="form-control coderunner-content" style="height: 400px"></textarea>
-          </div>
-          <button type="submit" class="btn btn-default coderunner" suffix="go" name="run" id="run">Submit</button>
-        </form>
-        <hr/>
-        <p>Code result:</p>
-        <pre><code class="coderunner-result"></code></pre>
+        <div class="coderunner">
+            <form role="form">
+              <div class="form-group">
+                <label for="suffix">Code suffix</label>
+                <select name="suffix" class="form-control">
+                    <option value="go">go</option>
+                    <option value="py">py</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="content">Code content</label>
+                <textarea name="content" class="form-control coderunner-content" style="height: 400px"></textarea>
+              </div>
+              
+            </form>
+        </div>
     </div>
     
     <script src="assets/js/jquery.min.js"></script>
@@ -36,9 +35,15 @@
     <script language="javascript">
         $(function() {
             $('select[name="suffix"]').on('change', function() {
-                $('.coderunner').attr('suffix', $('select[name="suffix"]').val());
+                $('.coderunner-content').attr('suffix', $('select[name="suffix"]').val());
             });
-            CodeRunner("ws://" + window.location.hostname + ":8211/", "form");
+            $.CodeRunner({
+                wsuri: "ws://" + window.location.hostname + ":8211/",
+                buttonContainer: 'form',
+                codeContainer: 'textarea'
+
+            })
+            $('div.coderunner').CodeRunner();
         })
     </script>
 </body>
