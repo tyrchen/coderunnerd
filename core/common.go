@@ -5,7 +5,6 @@ import (
 	"code.google.com/p/go.net/websocket"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -52,14 +51,16 @@ func CodeHandler(ws *websocket.Conn) {
 		var data string
 
 		if err = websocket.Message.Receive(ws, &data); err != nil {
-			fmt.Println("Can't receive")
+			log.Printf("Can't receive\n")
 			break
 		}
 
-		fmt.Println("Received code from client: " + data)
+		log.Printf("Received code from client: %s\n", data)
 
 		if out, err := runCode(data); err == nil {
 			resultSend(ws, string(out))
+		} else {
+			resultSend(ws, err.Error())
 		}
 	}
 }
@@ -78,6 +79,7 @@ func run(dir string, args ...string) ([]byte, error) {
 func runCode(data string) (out []byte, err error) {
 	var code, ret JsonCode
 	json.Unmarshal([]byte(data), &code)
+	log.Printf("Code is:\n%s\n", code.Content)
 
 	if handler, ok := lang[code.Suffix]; ok {
 		x := filepath.Join(tmpdir, "compile"+strconv.Itoa(<-uniq))
@@ -95,7 +97,7 @@ func runCode(data string) (out []byte, err error) {
 		}
 		ret.Suffix = code.Suffix
 		ret.Content = string(data)
-		log.Println(ret.Content)
+		log.Printf("executed result: %s\n", ret.Content)
 		out, _ = json.Marshal(ret)
 		return out, nil
 	}
@@ -106,6 +108,6 @@ func runCode(data string) (out []byte, err error) {
 
 func resultSend(ws *websocket.Conn, msg string) {
 	if err := websocket.Message.Send(ws, msg); err != nil {
-		fmt.Println("Can't send")
+		log.Printf("Can't send\n")
 	}
 }

@@ -62,8 +62,14 @@
 
             sock.onmessage = function(e) {
                 console.log("message received: " + e.data);
-                var data = JSON.parse(e.data);
-                $(defaults.resultSelector, $parent).text(data.Content);
+                var data;
+                try {
+                    data = JSON.parse(e.data);
+                    $(defaults.resultSelector, $parent).text(data.Content);
+                } catch (err) {
+                    $(defaults.resultSelector, $parent).text(e.data);
+                }
+                
             }
         }
         return this;
