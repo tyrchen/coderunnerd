@@ -7,7 +7,7 @@
         resultSelector: '.coderunner-result',
         contentSelector: '.coderunner-content',
         parentSelector: 'div.coderunner',
-        buttonContainer: 'pre',
+        buttonContainer: 'pre.main',
         codeContainer: 'code'
     }
 
@@ -28,7 +28,7 @@
         // append nodes
         this.filter(defaults.parentSelector).append(defaults.result);
         $(defaults.buttonContainer, this).append(defaults.button);
-        $(defaults.codeContainer, this).addClass(defaults.contentSelector)
+        $(defaults.buttonContainer + ' >' + defaults.codeContainer, this).addClass(defaults.contentSelector.slice(1))
 
         $btn = $(defaults.buttonSelector);
 
@@ -38,6 +38,7 @@
             var suffix = $content.attr('suffix');
             var content = $content.text() || $content.val();
             send({'Suffix': suffix, 'Content': content});
+            $(this).blur();
             return false;            
         });
 
